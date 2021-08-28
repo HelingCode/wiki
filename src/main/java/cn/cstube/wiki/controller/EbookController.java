@@ -4,6 +4,7 @@ import cn.cstube.wiki.req.EbookReq;
 import cn.cstube.wiki.resp.CommonResp;
 import cn.cstube.wiki.resp.EbookResp;
 import cn.cstube.wiki.service.EbookService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/ebook")
+@CrossOrigin
 public class EbookController {
 
     @Resource
