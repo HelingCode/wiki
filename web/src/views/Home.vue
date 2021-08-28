@@ -94,7 +94,6 @@
     export default defineComponent({
         name: 'Home',
         setup() {
-            console.log("setup");
             const ebooks = ref();
             const ebooks1 = reactive({books: []})
             const pagination = {
@@ -110,7 +109,6 @@
             ];
 
             onMounted(() => {
-                console.log("onMounted")
                 axios.get("/ebook/list").then((response) => {
                     const data = response.data;
                     ebooks1.books = data.content;
