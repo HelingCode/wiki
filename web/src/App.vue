@@ -1,7 +1,7 @@
 <template>
     <a-layout id="components-layout-demo-top-side-2">
         <a-layout-header class="header">
-            <div class="logo"/>
+            <div class="logo" />
             <a-menu
                     theme="dark"
                     mode="horizontal"
@@ -24,7 +24,7 @@
                     <a-sub-menu key="sub1">
                         <template #title>
               <span>
-                <user-outlined/>
+                <user-outlined />
                 subnav 1
               </span>
                         </template>
@@ -36,7 +36,7 @@
                     <a-sub-menu key="sub2">
                         <template #title>
               <span>
-                <laptop-outlined/>
+                <laptop-outlined />
                 subnav 2
               </span>
                         </template>
@@ -48,7 +48,7 @@
                     <a-sub-menu key="sub3">
                         <template #title>
               <span>
-                <notification-outlined/>
+                <notification-outlined />
                 subnav 3
               </span>
                         </template>
@@ -76,7 +76,7 @@
         float: left;
         width: 120px;
         height: 31px;
-        margin: 16px 24px 16px;
+        margin: 16px 24px 16px 0;
         background: rgba(255, 255, 255, 0.3);
     }
 
