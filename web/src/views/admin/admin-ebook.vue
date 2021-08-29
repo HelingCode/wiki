@@ -12,21 +12,30 @@
               @change="handleTableChange"
       >
         <template #cover="{ text: cover }">
-          <img v-if="cover" :src="cover" alt="avatar" />
+          <img v-if="cover" :src="cover" alt="avatar" class="avatar" />
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <a-button type="primary">
+            <a-button type="primary" @click="edit">
               编辑
             </a-button>
             <a-button type="danger">
-              危险
+              删除
             </a-button>
           </a-space>
         </template>
       </a-table>
     </a-layout-content>
   </a-layout>
+
+  <a-modal
+          title="电子书表单"
+          v-model:visible="modalvisible"
+          :confirm-loading="modalLoading"
+          @ok="handleModalOk"
+  >
+    <p>test</p>
+  </a-modal>
 </template>
 
 
@@ -116,6 +125,28 @@
         });
       };
 
+      //--------------表单----------------
+      // const modalText = ref<string>('Content of the modal');
+      const modalvisible = ref<boolean>(false);
+      const modalLoading = ref<boolean>(false);
+
+      const handleModalOk = () => {
+        // modalText.value = 'The modal will be closed after two seconds';
+        modalLoading.value = true;
+        setTimeout(() => {
+          modalvisible.value = false;
+          modalLoading.value = false;
+        }, 2000);
+      };
+
+      /**
+       * 编辑
+       */
+      const edit = () => {
+        modalvisible.value = true;
+      }
+
+
       onMounted(() => {
         handleQuery({
           page: 1,
@@ -128,8 +159,23 @@
         pagination,
         columns,
         loading,
-        handleTableChange
+        handleTableChange,
+
+        edit,
+        modalvisible,
+        modalLoading,
+        handleModalOk
       }
     }
   });
 </script>
+
+<style scoped>
+  .avatar {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 8%;
+    margin: 5px 0;
+  }
+</style>
