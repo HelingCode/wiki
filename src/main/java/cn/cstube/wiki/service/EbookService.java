@@ -3,8 +3,9 @@ package cn.cstube.wiki.service;
 import cn.cstube.wiki.domain.Ebook;
 import cn.cstube.wiki.domain.EbookExample;
 import cn.cstube.wiki.mapper.EbookMapper;
-import cn.cstube.wiki.req.EbookReq;
-import cn.cstube.wiki.resp.EbookResp;
+import cn.cstube.wiki.req.EbookQueryReq;
+import cn.cstube.wiki.req.EbookSaveReq;
+import cn.cstube.wiki.resp.EbookQueryResp;
 import cn.cstube.wiki.resp.PageResp;
 import cn.cstube.wiki.util.CopyUtil;
 import com.github.pagehelper.PageHelper;
@@ -29,7 +30,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-     public PageResp<EbookResp> list(EbookReq req){
+     public PageResp<EbookQueryResp> list(EbookQueryReq req){
 
 
          EbookExample ebookExample = new EbookExample();
@@ -45,19 +46,35 @@ public class EbookService {
          LOG.info("总页数：{}", pageInfo.getPages());
 
 
-//         List<EbookResp> respList = new ArrayList<>();
+//         List<EbookQueryResp> respList = new ArrayList<>();
 //         for (Ebook ebook : ebookList) {
 //             //对象复制
-//             respList.add(CopyUtil.copy(ebook,EbookResp.class));
+//             respList.add(CopyUtil.copy(ebook,EbookQueryResp.class));
 //         }
 
 
          //列表复制
-         List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
+         List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
 
-         PageResp<EbookResp> pageResp = new PageResp();
+         PageResp<EbookQueryResp> pageResp = new PageResp();
          pageResp.setTotal(pageInfo.getTotal());
          pageResp.setList(list);
          return pageResp;
      }
+
+    /**
+     * 保存
+     */
+    public void save(EbookSaveReq req){
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if(ObjectUtils.isEmpty(req.getId())){
+            //新增
+            ebookMapper.insert(ebook);
+        }else {
+            //更新
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
+
+
+    }
 }
