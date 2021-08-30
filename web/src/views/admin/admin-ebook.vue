@@ -3,6 +3,11 @@
     <a-layout-content
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
+      <p>
+        <a-button type="primary" @click="add()" size="large">
+          新增
+        </a-button>
+      </p>
       <a-table
               :columns="columns"
               :row-key="record => record.id"
@@ -30,11 +35,11 @@
 
   <a-modal
           title="电子书表单"
-          v-model:visible="modalvisible"
+          v-model:visible="modalVisible"
           :confirm-loading="modalLoading"
           @ok="handleModalOk"
   >
-    <a-form :model="ebook" :label-col="labelCol" :wrapper-col="wrapperCol">
+    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="封面">
         <a-input v-model:value="ebook.cover" />
       </a-form-item>
@@ -50,7 +55,6 @@
       <a-form-item label="描述">
         <a-input v-model:value="ebook.desc" type="text" />
       </a-form-item>
-
     </a-form>
 
   </a-modal>
@@ -146,15 +150,15 @@
       //--------------表单----------------
       // const modalText = ref<string>('Content of the modal');
       const ebook = ref({});
-      const modalvisible = ref<boolean>(false);
-      const modalLoading = ref<boolean>(false);
+      const modalVisible = ref(false);
+      const modalLoading = ref(false);
 
       const handleModalOk = () => {
         modalLoading.value = true;
         axios.post("/ebook/save",ebook.value).then((response) => {
           const data = response.data;
           if(data.success){
-            modalvisible.value = false;
+            modalVisible.value = false;
             modalLoading.value = false;
 
             //重新加载列表
@@ -170,8 +174,16 @@
        * 编辑
        */
       const edit = (record: any) => {
-        modalvisible.value = true;
-        ebook.value = record
+        modalVisible.value = true;
+        ebook.value = record;
+      }
+
+      /**
+       * 新增
+       */
+      const add = () => {
+        modalVisible.value = true;
+        ebook.value = {};
       }
 
 
@@ -190,9 +202,10 @@
         handleTableChange,
 
         edit,
+        add,
 
         ebook,
-        modalvisible,
+        modalVisible,
         modalLoading,
         handleModalOk
       }

@@ -8,6 +8,7 @@ import cn.cstube.wiki.req.EbookSaveReq;
 import cn.cstube.wiki.resp.EbookQueryResp;
 import cn.cstube.wiki.resp.PageResp;
 import cn.cstube.wiki.util.CopyUtil;
+import cn.cstube.wiki.util.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class EbookService {
 
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
 
      public PageResp<EbookQueryResp> list(EbookQueryReq req){
 
@@ -65,16 +69,15 @@ public class EbookService {
     /**
      * 保存
      */
-    public void save(EbookSaveReq req){
+    public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
-        if(ObjectUtils.isEmpty(req.getId())){
-            //新增
+        if (ObjectUtils.isEmpty(req.getId())) {
+            // 新增
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
-        }else {
-            //更新
-            ebookMapper.updateByPrimaryKey(ebook);
+        } else {
+            // 更新
+            ebookMapper.updateByPrimaryKeySelective(ebook);
         }
-
-
     }
 }
